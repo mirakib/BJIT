@@ -1,9 +1,0 @@
-Terraform Project Summary
-
-- Configured the Terraform local provider.
-- Defined name, ID, and topic as input variables.
-- Loaded variable values from terraform.tfvars.
-- Created plan.txt with a bullet-point summary.
-- Created a personalized text file using name and ID.
-- Used Terraform local_file resources to create both files.
-- Topic: Local File Creation Using Terraform
