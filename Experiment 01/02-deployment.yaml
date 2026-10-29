@@ -1,0 +1,26 @@
+# DEPLOYMENT: keeps 3 identical Pods running, replaces failed ones, does rolling updates.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web            
+  template:               
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.27
+        ports:
+        - containerPort: 80
+        command: ["sh", "-c", "echo '<h1>Sujoy Sadhu Deployment</h1>' > /usr/share/nginx/html/index.html && exec nginx -g 'daemon off;'"]
+        resources:
+          requests: {cpu: 50m, memory: 64Mi}
+          limits: {cpu: 200m, memory: 128Mi}
