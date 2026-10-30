@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: student-11-exampro-cleanup
+  namespace: exam-dev
+  labels:
+    app: exampro-cleanup
+    environment: development
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        app: exampro-cleanup
+        environment: development
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: cleanup
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              echo "ExamPro database cleanup started at $(date -Iseconds)"
+              echo "Simulating removal of expired examination records..."
+              sleep 5
+              echo "ExamPro database cleanup completed at $(date -Iseconds)"

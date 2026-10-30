@@ -1,11 +1,10 @@
-# POD: the smallest unit. A bare Pod is NOT replaced if it dies.
-apiVersion: v1            # which API group/version defines this kind
-kind: Pod                 # what we are creating
+apiVersion: v1
+kind: Pod 
 metadata:
-  name: hello-pod         # must be unique inside the namespace
+  name: hello-pod
   labels:
-    app: hello-pod        # name tags that Services and Deployments search by
-spec:                     # the wish
+    app: hello-pod
+spec:                    
   containers:
   - name: web
     image: nginx:1.27
@@ -13,7 +12,6 @@ spec:                     # the wish
     - containerPort: 80
     command: ["sh", "-c", "echo '<h1>hello-pod</h1>' > /usr/share/nginx/html/index.html && exec nginx -g 'daemon off;'"]
 ---
-# NodePort so you can open this Pod from the Windows/WSL workstation.
 apiVersion: v1
 kind: Service
 metadata:
@@ -26,6 +24,3 @@ spec:
   - port: 80
     targetPort: 80
     nodePort: 30082
-# Try from this workstation (browser or curl):
-#   curl http://localhost:30082
-#   curl http://127.0.0.1:30082

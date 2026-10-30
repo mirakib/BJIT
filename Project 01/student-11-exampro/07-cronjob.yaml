@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: student-11-exampro-scheduled-cleanup
+  namespace: exam-dev
+  labels:
+    app: exampro-scheduled-cleanup
+    environment: development
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      labels:
+        app: exampro-scheduled-cleanup
+        environment: development
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            app: exampro-scheduled-cleanup
+            environment: development
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: scheduled-cleanup
+              image: busybox:1.36
+              command:
+                - sh
+                - -c
+                - |
+                  echo "ExamPro scheduled maintenance executed at $(date -Iseconds)"
+                  echo "Simulating scheduled database maintenance..."
+                  sleep 5
+                  echo "ExamPro scheduled maintenance completed at $(date -Iseconds)"

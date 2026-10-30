@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-11-exampro-deployment
+  namespace: exam-dev
+  labels:
+    app: exampro
+    environment: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: exampro
+      environment: development
+  template:
+    metadata:
+      labels:
+        app: exampro
+        environment: development
+    spec:
+      containers:
+        - name: exampro-web
+          image: nginx:1.27
+          ports:
+            - name: http
+              containerPort: 8011
+              protocol: TCP
+          command:
+            - sh
+            - -c
+            - |
+              sed -i 's/listen[[:space:]]\+80;/listen 8011;/' /etc/nginx/conf.d/default.conf
+              exec nginx -g 'daemon off;'
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
